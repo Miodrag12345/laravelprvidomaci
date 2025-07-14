@@ -1,8 +1,7 @@
-
 @extends ("layoout")
 @section("naslovStranice")
-    Ovo je about strana
+    Shop strana
 @endsection
 @section("Sadrzaj stranice")
-    <p>Ovo je about stranica </p>
+    <p>Ovo je shop stranica </p>
 @endsection
