@@ -2,11 +2,10 @@
 
 Route::view ("/", "welcome");
 
-Route::get("/about", function (){
-    return view ("about" ,["ime"=>"Miodrag "],["prezime"=>"Kukric"]);
-});
+Route::view("/about", "about");
 
-Route::get("/contact", function (){
-    return  view ("contact", ["brojtelefona"=>"0640033299"],["email"=>"moj@email.com"]);
-});
+Route::view("/contact", "contact");
+
+Route::view("/shop", "shop");
+
 
