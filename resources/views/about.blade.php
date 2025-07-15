@@ -1,5 +1,6 @@
 
 @extends ("layoout")
+
 @section("naslovStranice")
     Ovo je about strana
 @endsection
