@@ -1,25 +1,17 @@
 
 @extends ("layoout")
-@include("navigation")
+
 @section("naslovStranice")
     Shop strana
 @endsection
 @section("Sadrzaj stranice")
 
-    @foreach($products as $singleProduct)
+@foreach($products as $Singleproduct)
 
+<p>{{$Singleproduct->name}}</p>
+<p>{{$Singleproduct->description}}</p>
 
-
-    @if($singleProduct == "Iphone 14" || $singleProduct == "Iphone 13 pro" )
-        <p>{{$singleProduct}} -SUPER SNIZENJE </p>
-    @else
-        <p>{{$singleProduct}}</p>
-    @endif
-
-
-
-  @endforeach
-
+@endforeach
 
 
 

@@ -1,13 +1,25 @@
 <?php
+namespace App\Http\Controllers;
+use App\Models\ContactModel;
+use Illuminate\http\request;
 
-namespace App\Http\Controllers; // virtuelna pitanja do samog kontrolera
 
-use Illuminate\Http\Request; // kao require once kao request klasa
+
+
+
+
 
 class ContactController extends Controller
 {
     public function  index()
     {
       return view("contact");
+    }
+
+    public function getAllContacts(){
+        $allContacts= ContactModel::all();// pozvao kontakt model i izvukao podatke kao u query (select *) sve kontakte iz baze
+
+
+        return view("allContacts", compact('allContacts'));// prosledimo trebamo kontakte iu view ucitavamo blade.php i prosledjujemo varijablu all  contacts
     }
 }

@@ -12,6 +12,14 @@
          <p>Dobar dan </p>
      @endif
 
+     @foreach($products as $singleProduct)
+     <p>{{$singleProduct->name}}</p>
+     <p>{{$singleProduct->description }}</p>
+     <p>{{$singleProduct->amount}}   </p>
+     <p>{{$singleProduct->price}}</p>
+     <p>{{$singleProduct->image}}</p>
+
+ @endforeach
 
     <p>Trenutno sati je:{{$sat}}</p>
     <p>Trenutno vreme je:{{$trenutnoVreme}}</p>

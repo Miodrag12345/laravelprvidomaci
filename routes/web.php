@@ -13,6 +13,7 @@ Route::view("/about", "about");
 Route::get("/contact", [\App\Http\Controllers\ContactController::class,  'index'],); // da preko rute gde smo napravili kontroler iscita klasu glavne stranice npr i npr stavimo ime kontrolera tu posle rute
 Route::get("/", [\App\Http\Controllers\HomeController::class, 'index']);
 Route::get("/shop", [\App\Http\Controllers\ShopController::class, 'index']);
+Route::get("admin/all-contacts", [\App\Http\Controllers\ContactController::class, "getAllContacts"]);
 
 
 
