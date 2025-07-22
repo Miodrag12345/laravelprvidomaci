@@ -9,6 +9,17 @@ class ContactController extends Controller
     public function  index()
     {
         return view("contact");
+
+    }
+
+    public function  delete($contact) // mora biti u zagradi ime u zagradama u route sto smo stavili mora biti kao varijabla
+    {
+     $singleContact=ContactModel::where(['id'=>$contact])->first();
+     if($singleContact===null){
+         die("Ovaj kontakt ne postoji");
+     }
+     $singleContact->delete();
+     return redirect()->back(); // vraca nas na stranicu odakle smo dosli
     }
 
     public function getAllContacts(){

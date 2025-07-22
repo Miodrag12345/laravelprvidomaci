@@ -13,9 +13,14 @@ Route::get("/shop", [\App\Http\Controllers\ShopController::class, 'index']);
 Route::get("admin/all-contacts", [\App\Http\Controllers\ContactController::class, "getAllContacts"]);
 Route::post("/send-contact", [\App\Http\Controllers\ContactController::class, "sendContact"]);
 
-Route::view("/admin/add-product", "add-Product");
-Route::post("/admin/add-product", [\App\Http\Controllers\Admin\ProductController::class, "addProduct"]);
 
+
+Route::get("/admin/all-products", [\App\Http\Controllers\ProductsController::class, "index"]);
+Route::get("admin/delete-product/{product}",[\App\Http\Controllers\ProductsController::class, "delete"]); // kada dodjemo do ove rute poziva productController funckiju delete
+// nppr admin/delete-product/id5 npr iz product modela brisemo id 5
+Route::get("/admin/delete-contact/{contact}",[\App\Http\Controllers\ContactController::class, "delete"]);
+Route::view("/admin/add-product", "add-Product");
+Route::post("/admin/save-product", [\App\Http\Controllers\Admin\ProductController::class, "saveProduct"]);
 
 
 

@@ -1,24 +1,33 @@
-@extends ("layoout")
-@section("naslovStranice")
-
-Ovo je stranica za dodavanje
 
 
-@endsection
-
+@extends("layoout")
 @section("Sadrzaj stranice")
-    <form  method="POST" action="/admin/add-product">
-        @if($errors->any())
-            <p>Greska :{{$errors->first()}}</p>
-        @endif
+    <form method="POST"  action="/admin/save-product">
         {{csrf_field()}}
-        <input name="name" type="text"  placeholder="Unesite ime proizvoda">
-        <textarea  name="description"></textarea>
-        <input name="amount" type="number" placeholder="Upisi kolicinu">
-        <input name="price" type="number"  placeholder="Upisi cenu proizvoda">
-        <input name="image"  type="file" >
-        <button>Dodaj proizvod</button>
+        @if($errors->any()) {{ $errors->first() }} @endif
+    <form>
+        <div>
+            <label>Name</label>
+            <input type="text" name="name" placeholder="Unesite ime proizvoda">
+        </div>
+        <div>
+            <label>Description</label>
+            <input type="text" name="description" placeholder="Unesite opis proizvoda">
+        </div>
+        <div>
+            <label>Amount</label>
+            <input type="text" name="amount" placeholder="Unesite kolicinu proizvoda">
 
+        </div>
+        <div>
+            <label>Price</label>
+            <input type="text" name="price" placeholder="Unesite cenu proizvoda">
+        </div>
+        <div>
+            <label>Image </label>
+            <input type="text" name="image" placeholder="Unesite sliku">
+        </div>
+        <button>Kreiraj proizvod </button>
     </form>
-@endsection
 
+@endsection
