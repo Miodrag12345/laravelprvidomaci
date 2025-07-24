@@ -37,26 +37,20 @@ class ProductController extends Controller
         return redirect()->back();// admin->all products->delete->back vraca nas na stranicu koju smo dosli kao da smo ostali tu
     }
 
-    public function singleProduct(Request $request, $id)
+    public function singleProduct(Request $request,ProductsModel $product)
     {
-        $product = ProductsModel::where(['id' => $id])->first(); // nadji mi gde je id jednak varijabli id odnosno
-        // SELECT*FROM products where id=$id; da nam nadje tu nasu varijablu id  i sa first da nam nadje prvi upit iz baze
-        if($product===null){
-            die("Ovaj proizvod ne postoji ");
-        }
+
         return view("products.edit", compact('product')); // prosledjujemo u view ceo product odnosno podatak
-    }
-    public function  edit(Request $request, $id) // treba nam request za nove cene proizvode podatke generalno
-    {
-       $products=ProductsModel::where(['id'=>$id])->first(); // izvlacimo iz baze id proizvoda koji imamo id taj u bazi
-        if($products===null){
-            die("Ovaj proizvod ne postoji");
         }
-        $products->name =$request->get("name"); // u ovom polju name upisi name iz request odnosno imenu iz baze request dodeli za name u bazi products
-        $products->description =$request->get("description");
-        $products->price =$request->get("price");
-        $products->amount =$request->get("amount");
-        $products->save();
+
+
+    public function  edit(Request $request, ProductsModel $product) // treba nam request za nove cene proizvode podatke generalno
+    {
+        $product->name =$request->get("name"); // u ovom polju name upisi name iz request odnosno imenu iz baze request dodeli za name u bazi products
+        $product->description =$request->get("description");
+        $product->price =$request->get("price");
+        $product->amount =$request->get("amount");
+        $product->save();
         return redirect()->back(); // da nam vrati iz snimanja podataka u formu
     } // izvukli smo proizvod iz baze
 

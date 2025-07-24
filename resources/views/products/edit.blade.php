@@ -1,6 +1,6 @@
 @extends("layoout")
 @section("Sadrzaj stranice")
-    <form method="POST" action="{{route("product.save", ['id' => $product->id])}}">
+    <form method="POST" action="{{route("product.save", ['product' => $product->id])}}">
         {{csrf_field()}}
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Name</label>
