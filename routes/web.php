@@ -1,13 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
-
-
-
-
-
-
 
 use Illuminate\Http\Request;
 
@@ -16,60 +15,68 @@ Route::view("/about", "about");
 
 // kada se dodje na nas sajt http://127.0.0.1:8000/contact->ucitaj contact controler
 // iz tog kontrolera pozovi funkciju index koju smo u kontroleru kreirali
-Route::get("/contact", [\App\Http\Controllers\ContactController::class, 'index']); // da preko rute gde smo napravili kontroler iscita klasu glavne stranice npr i npr stavimo ime kontrolera tu posle rute
-Route::get("/", [\App\Http\Controllers\HomeController::class, 'index']);
-Route::get("/shop", [\App\Http\Controllers\ShopController::class, 'index']);
-Route::get("admin/all-contacts", [\App\Http\Controllers\ContactController::class, "getAllContacts"]);
-Route::post("/send-contact", [\App\Http\Controllers\ContactController::class, "sendContact"]);
+Route::get("/contact", [ContactController::class, 'index']);
+
+Route::middleware('auth')->prefix("admin")->group(function (){
+
+    Route::get("/", [HomeController::class, 'index']);
+
+    Route::get("/shop", [ShopController::class, 'index']);
+    Route::get("/all-contacts", [ContactController::class, "getAllContacts"]);
+    Route::post("/send-contact", [ContactController::class, "sendContact"]);
 
 
 
-Route::get("/admin/all-products", [\App\Http\Controllers\ProductsController::class, "index"])
-    ->name("Sviproizvodi");
-Route::get("admin/delete-product/{product}",[\App\Http\Controllers\ProductsController::class, "delete"]) // kada dodjemo do ove rute poziva productController funckiju delete
+    Route::get("/all-products", [ProductsController::class, "index"])
+
+        ->name("Sviproizvodi");
+
+    Route::get("/delete-product/{product}",[ProductsController::class, "delete"]) // kada dodjemo do ove rute poziva productController funckiju delete
 // nppr admin/delete-product/id5 npr iz product modela brisemo id 5
-->name("Obrisi proizvod");
-Route::get("/admin/delete-contact/{contact}",[\App\Http\Controllers\ContactController::class, "delete"])
-    ->name("obrisiKontakt");
-Route::view("/admin/add-product", "add-Product");
-Route::post("/admin/save-product", [\App\Http\Controllers\ProductsController::class, "saveProduct"])
-    ->name("Snimanjeoglasa");
-Route::get("admin/product/edit/{product}", [\App\Http\Controllers\Admin\ProductController::class, "singleProduct"])
-    ->name("product.single");
-Route::post("admin/product/save/{product}",[\App\Http\Controllers\Admin\ProductController::class, "Edit"])
-    ->name("product.save");
+
+    ->name("Obrisi proizvod");
+    Route::get("/admin/delete-contact/{contact}",[ContactController::class, "delete"])
+
+        ->name("obrisiKontakt");
+    Route::view("/add-product", "add-Product");
+    Route::post("/save-product", [ProductsController::class, "saveProduct"])
+
+        ->name("Snimanjeoglasa");
+    Route::get("/product/edit/{product}", [ProductController::class, "singleProduct"])
+
+        ->name("product.single");
+    Route::post("/product/save/{product}",[ProductController::class, "Edit"])
+
+        ->name("product.save");
 
 
 
 
 
-Route::view("/about", "about");
-
-// kada se dodje na nas sajt http://127.0.0.1:8000/contact->ucitaj contact controler
-// iz tog kontrolera pozovi funkciju index koju smo u kontroleru kreirali
-Route::get("/contact", [\App\Http\Controllers\ContactController::class, 'index']); // da preko rute gde smo napravili kontroler iscita klasu glavne stranice npr i npr stavimo ime kontrolera tu posle rute
-Route::get("/", [\App\Http\Controllers\HomeController::class, 'index']);
-Route::get("/shop", [\App\Http\Controllers\ShopController::class, 'index']);
-Route::get("admin/all-contacts", [\App\Http\Controllers\ContactController::class, "getAllContacts"]);
-Route::post("/send-contact", [\App\Http\Controllers\ContactController::class, "sendContact"]);
+});
 
 
-Route::get("/admin/all-products", [\App\Http\Controllers\ProductsController::class, "index"])
-    ->name("Sviproizvodi");
-Route::get("admin/delete-product/{product}", [\App\Http\Controllers\ProductsController::class, "delete"]) // kada dodjemo do ove rute poziva productController funckiju delete
-// nppr admin/delete-product/id5 npr iz product modela brisemo id 5
-->name("Obrisi proizvod");
-Route::get("/admin/delete-contact/{contact}", [\App\Http\Controllers\ContactController::class, "delete"])
-    ->name("obrisiKontakt");
-Route::view("/admin/add-product", "add-Product");
-Route::post("/admin/save-product", [\App\Http\Controllers\ProductsController::class, "saveProduct"])
-    ->name("Snimanjeoglasa");
-Route::get("admin/product/edit/{product}", [\App\Http\Controllers\Admin\ProductController::class, "singleProduct"])
-    ->name("product.single");
-Route::post("admin/product/save/{product}", [\App\Http\Controllers\Admin\ProductController::class, "Edit"])
-    ->name("product.save");
+Route::get('/', function () {
+    return view('welcome');
+});
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 require __DIR__.'/auth.php';
+
+
+
+
+
+
+
+
+
