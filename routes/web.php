@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
+use App\Http\Middleware\AdminCheckMiddleware;
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ Route::view("/about", "about");
 // iz tog kontrolera pozovi funkciju index koju smo u kontroleru kreirali
 Route::get("/contact", [ContactController::class, 'index']);
 
-Route::middleware('auth')->prefix("admin")->group(function (){
+Route::middleware(["auth", AdminCheckMiddleware::class])->prefix("admin")->group(function (){
 
     Route::get("/", [HomeController::class, 'index']);
 
