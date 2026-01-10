@@ -9,54 +9,51 @@ use App\Http\Controllers\ShopController;
 use App\Http\Middleware\AdminCheckMiddleware;
 use Illuminate\Support\Facades\Route;
 
-use Illuminate\Http\Request;
-
-
+// Static page
 Route::view("/about", "about");
 
-// kada se dodje na nas sajt http://127.0.0.1:8000/contact->ucitaj contact controler
-// iz tog kontrolera pozovi funkciju index koju smo u kontroleru kreirali
+// Contact page
 Route::get("/contact", [ContactController::class, 'index']);
 
-Route::middleware(["auth", AdminCheckMiddleware::class])->prefix("admin")->group(function (){
+Route::middleware(["auth", AdminCheckMiddleware::class])
+    ->prefix("admin")
+    ->group(function () {
 
-    Route::get("/", [HomeController::class, 'index']);
+        Route::get("/", [HomeController::class, 'index']);
 
-    Route::get("/shop", [ShopController::class, 'index']);
-    Route::get("/all-contacts", [ContactController::class, "getAllContacts"]);
-    Route::post("/send-contact", [ContactController::class, "sendContact"]);
+        Route::get("/shop", [ShopController::class, 'index']);
 
+        Route::get("/all-contacts", [ContactController::class, "getAllContacts"]);
+        Route::post("/send-contact", [ContactController::class, "sendContact"]);
 
+        // ✅ ADD PRODUCT (GET + POST NA ISTOJ RUTI)
+        Route::get("/add-product", function () {
+            return view("add-Product");
+        });
 
-    Route::get("/all-products", [ProductsController::class, "index"])
+        Route::post("/add-product", [ProductsController::class, "saveProduct"])
+            ->name("Snimanjeoglasa");
 
-        ->name("Sviproizvodi");
+        // PRODUCTS
+        Route::get("/all-products", [ProductsController::class, "index"])
+            ->name("Sviproizvodi");
 
-    Route::get("/delete-product/{product}",[ProductsController::class, "delete"]) // kada dodjemo do ove rute poziva productController funckiju delete
-// nppr admin/delete-product/id5 npr iz product modela brisemo id 5
+        Route::get("/delete-product/{product}", [ProductsController::class, "delete"])
+            ->name("Obrisi proizvod");
 
-    ->name("Obrisi proizvod");
-    Route::get("/admin/delete-contact/{contact}",[ContactController::class, "delete"])
+        // CONTACT DELETE
+        Route::get("/delete-contact/{contact}", [ContactController::class, "delete"])
+            ->name("obrisiKontakt");
 
-        ->name("obrisiKontakt");
-    Route::view("/add-product", "add-Product");
-    Route::post("/save-product", [ProductsController::class, "saveProduct"])
+        // EDIT PRODUCT
+        Route::get("/product/edit/{product}", [ProductController::class, "singleProduct"])
+            ->name("product.single");
 
-        ->name("Snimanjeoglasa");
-    Route::get("/product/edit/{product}", [ProductController::class, "singleProduct"])
+        Route::post("/product/save/{product}", [ProductController::class, "Edit"])
+            ->name("product.save");
+    });
 
-        ->name("product.single");
-    Route::post("/product/save/{product}",[ProductController::class, "Edit"])
-
-        ->name("product.save");
-
-
-
-
-
-});
-
-
+// Public pages
 Route::get('/', function () {
     return view('welcome');
 });
@@ -65,6 +62,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// Profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -72,7 +70,6 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-
 
 
 

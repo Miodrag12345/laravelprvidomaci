@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+use App\Http\Requests\SendContactRequest;
 use App\Models\ContactModel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\request;
@@ -12,13 +13,11 @@ class ContactController extends Controller
 
     }
 
-    public function  delete($contact) // mora biti u zagradi ime u zagradama u route sto smo stavili mora biti kao varijabla
+    public function  delete(ContactModel $contact) // mora biti u zagradi ime u zagradama u route sto smo stavili mora biti kao varijabla
     {
-     $singleContact=ContactModel::where(['id'=>$contact])->first();
-     if($singleContact===null){
-         die("Ovaj kontakt ne postoji");
-     }
-     $singleContact->delete();
+
+
+     $contact->delete();
      return redirect()->back(); // vraca nas na stranicu odakle smo dosli
     }
 
@@ -29,19 +28,12 @@ class ContactController extends Controller
         return view("allContacts", compact('allContacts'));// prosledimo trebamo kontakte iu view ucitavamo blade.php i prosledjujemo varijablu all  contacts
     }
 
-    public function  sendContact(FormRequest $request) // svi podaci za nase posete na sajtu i koje imamo u requestu
+    public function  sendContact(SendContactRequest $request) // svi podaci za nase posete na sajtu i koje imamo u requestu
     {
 
 
 
-        $request->validate([
-            // name polja =>pravila
-            "email"=>"required|string", // dali postoji email kao ISSET u php && is_string("POST['email'])
-            "subject"=>"required|string",
-            "description"=>"required|string|min:5"
 
-
-        ]);
 
 
 
