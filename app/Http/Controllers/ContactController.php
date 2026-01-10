@@ -7,6 +7,13 @@ use Illuminate\Http\request;
 
 class ContactController extends Controller
 {
+
+    private $contactRepo;
+
+    public function __construct()
+    {
+        $this->contactRepo=new contactRepository();
+    }
     public function  index()
     {
         return view("contact");
@@ -30,26 +37,21 @@ class ContactController extends Controller
 
     public function  sendContact(SendContactRequest $request) // svi podaci za nase posete na sajtu i koje imamo u requestu
     {
+        $this->contactRepo->createNew($request);
 
 
-
-
-
-
-
-     ContactModel::create([
-         "email" => $request->get("email"), // polje email u bazi upisi email iz request
-         "subject"=>$request->get("subject"),
-         "message"=>$request->get("description")
-
-     ]);
-     // ovo je kao INSERT u bazi query radimo u php CONTACT ...
-        return redirect("/shop"); // posaljemo u shop redirectujemo nase podatke
+        return redirect("/shop");
     }
 
 
 
 }
+
+
+
+
+
+
 
 
 
