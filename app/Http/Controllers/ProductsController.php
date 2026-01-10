@@ -33,18 +33,14 @@ class ProductsController extends Controller
 
         return redirect()->route("Sviproizvodi"); // da posaljemo na rutu i route vezujemo za name koje smo pravili tamo
     }
-    public function delete($product){
+    public function delete(ProductsModel $product){
 
 
-       $singleProduct = $this->productRepo->getProductById($product);
 
-       if($singleProduct===null){
-           die("Ovaj proizvod ne postoji"); // ovo je provera ako proizvod ne postoji onda je null i poruku cemo ispisati ako proizvod ne postoji
-       }
-       $singleProduct->delete(); // ovako smo obrisali uzeli iz baze i obrisali
+       $product>delete(); // ovako smo obrisali uzeli iz baze i obrisali
         return redirect()->back();// admin->all products->delete->back vraca nas na stranicu koju smo dosli kao da smo ostali tu
     }
-    public function  singleProduct(Request $request,ProductsModel $product)
+    public function  singleProduct(ProductsModel $product)
     {
          return view("products.edit",compact ('product'));
     }
