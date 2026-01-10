@@ -18,9 +18,5 @@ class HomeController extends Controller
         return view('welcome', compact('trenutnoVreme','sat','products')); // ako zelimo  da varijablu trenutno vreme prosledimo bladeu odnosno iz kontrolera prosledimo bladeu kucamo comapct pa ime varijable u view
     }
 }
-// u return ucitali smo welcome blade
-// 1.Napravimo varijablu sat  koja ce uzeti koliko je trenutno sati
-// 2.Prosledimo varijablu u  blade
-//Debugujemo nas kod neke greske
-// dd($sat); // dump and die->to je var_dump($sat) i uradice die() kao u php i to je prekid funkcije
+
 
