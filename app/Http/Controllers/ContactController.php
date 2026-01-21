@@ -1,6 +1,9 @@
 <?php
+
+
 namespace App\Http\Controllers;
 use App\Http\Requests\SendContactRequest;
+use App\Repositories\ContactRepository;
 use App\Models\ContactModel;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\request;

@@ -10,7 +10,15 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+
+
+
     public function saveProduct(FormRequest $request){
+
+
+
+
         $request->validate([
             "name" => "required|unique:products", // ako postoji ime sa ovim productom  u bazi ispisace nam ovo
             "description" =>"required",

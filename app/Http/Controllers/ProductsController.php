@@ -1,54 +1,60 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\EditProductRequest;
-use App\Http\Requests\SaveProductRequest;
-use App\Repositories\ProductRepositiry;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\ProductsModel;
+use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-
-    private $productRepo;
-
-    public function __construct()
-    {
-        $this->productRepo= new ProductRepositiry();
-
-    }
-
     public function index()
     {
         $allProducts = ProductsModel::all();
-        return view("allProducts", compact("allProducts"));
+        return view('products.allProducts', compact('allProducts'));
     }
-    public function saveProduct(SaveProductRequest $request){
 
 
-
-        $this->productRepo->createNew($request);
-
-        return redirect()->route("Sviproizvodi"); // da posaljemo na rutu i route vezujemo za name koje smo pravili tamo
-    }
-    public function delete(ProductsModel $product){
-
-
-
-       $product>delete(); // ovako smo obrisali uzeli iz baze i obrisali
-        return redirect()->back();// admin->all products->delete->back vraca nas na stranicu koju smo dosli kao da smo ostali tu
-    }
-    public function  singleProduct(ProductsModel $product)
+    public function saveProduct(Request $request)
     {
-         return view("products.edit",compact ('product'));
+        $request->validate([
+            "name" => "required|unique:products",
+            "description" => "required",
+            "amount" => "required|integer|min:0",
+            "price" => "required|min:0",
+            "image" => "required"
+        ]);
+
+        ProductsModel::create([
+            "name" => $request->get("name"),
+            "description" => $request->get("description"),
+            "amount" => $request->get("amount"),
+            "price" => $request->get("price"),
+            "image" => $request->get("image")
+        ]);
+
+        return redirect()->route('svi_proizvodi');
     }
 
-    public function edit (EditProductRequest $request,ProductsModel $product){
+    public function delete(ProductsModel $product)
+    {
+        $product->delete();
+        return redirect()->back();
+    }
 
-     $this->productRepo->editProduct($product,$request);
+    public function singleProduct(ProductsModel $product)
+    {
+        return view('products.edit', compact('product'));
+    }
 
-     return redirect()->back();
+    public function edit(Request $request, ProductsModel $product)
+    {
+        $product->name = $request->get('name');
+        $product->description = $request->get('description');
+        $product->price = $request->get('price');
+        $product->amount = $request->get('amount');
+        $product->save();
 
-}}
+        return redirect()->back();
+    }
+}
