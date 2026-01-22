@@ -32,12 +32,14 @@ Route::middleware(["auth", AdminCheckMiddleware::class])
 
         Route::view("/add-product", "add-product");
 
-        Route::controller(ProductsController::class)->prefix("/products")->group(function () {
+        Route::controller(ProductsController::class)->prefix("/products")
+            ->name('products.')
+            ->group(function () {
             Route::get("/all", "index")->name("products.all");
-            Route::get("/delete/{product}", "delete")->name("products.delete");
-            Route::post("/save", "saveProduct")->name("products.create");
-            Route::get("/edit/{product}", "singleProduct")->name("products.single");
-            Route::post("/save/{product}", "edit")->name("products.save");
+            Route::get("/delete/{product}", "delete")->name("delete");
+            Route::post("/save", "saveProduct")->name("create");
+            Route::get("/edit/{product}", "singleProduct")->name("single");
+            Route::post("/save/{product}", "edit")->name("save");
         });
 
     });
