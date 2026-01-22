@@ -1,6 +1,6 @@
 @extends("layoout")
 @section("Sadrzaj stranice")
- <form method="POST"  action="{{route("Snimanjeoglasa")}}">
+ <form method="POST"  action="{{route("products.create")}}">
      {{csrf_field()}}
      <div>
          <label>Name</label>

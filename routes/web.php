@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\Admin\ProductController;
+
+use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
 use App\Http\Middleware\AdminCheckMiddleware;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -30,12 +32,12 @@ Route::middleware(["auth", AdminCheckMiddleware::class])
 
         Route::view("/add-product", "add-product");
 
-        Route::controller(ProductController::class)->prefix("/products")->group(function () {
-            Route::get("/all", "index")->name("svi_proizvodi");
-            Route::get("/delete/{product}", "delete")->name("obrisi_proizvod");
-            Route::post("/add", "saveProduct")->name("snimanje_oglasa");
-            Route::get("/edit/{product}", "singleProduct")->name("product.single");
-            Route::post("/save/{product}", "edit")->name("product.save");
+        Route::controller(ProductsController::class)->prefix("/products")->group(function () {
+            Route::get("/all", "index")->name("products.all");
+            Route::get("/delete/{product}", "delete")->name("products.delete");
+            Route::post("/save", "saveProduct")->name("products.create");
+            Route::get("/edit/{product}", "singleProduct")->name("products.single");
+            Route::post("/save/{product}", "edit")->name("products.save");
         });
 
     });

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+
 use App\Models\ProductsModel;
 use Illuminate\Http\Request;
 
@@ -11,7 +11,7 @@ class ProductsController extends Controller
     public function index()
     {
         $allProducts = ProductsModel::all();
-        return view('products.allProducts', compact('allProducts'));
+        return view('allProducts', compact('allProducts'));
     }
 
 
@@ -33,7 +33,7 @@ class ProductsController extends Controller
             "image" => $request->get("image")
         ]);
 
-        return redirect()->route('svi_proizvodi');
+        return redirect()->route("products.all");
     }
 
     public function delete(ProductsModel $product)
