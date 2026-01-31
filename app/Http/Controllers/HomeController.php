@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductsModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -12,6 +13,7 @@ class HomeController extends Controller
         $sat= date("h");
 
         $products=ProductsModel::orderByDesc("id")->take(6)->get();
+
 
 
         $trenutnoVreme = date("h:i:s");// napravili smo varijablu i stavili da je sat minut ,sekund

@@ -6,6 +6,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\ShoppingCartController;
 use App\Http\Middleware\AdminCheckMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -17,12 +18,16 @@ Route::view("/about", "about");
 
 Route::get("/contact", [ContactController::class, 'index']);
 
+Route::post("/cart/add", [ShoppingCartController::class, 'addToCart'])->name("cart.add");
+Route::get("/cart", [ShoppingCartController::class, "index"])->name("cart.index");
+
 Route::middleware(["auth", AdminCheckMiddleware::class])
     ->prefix("/admin")
     ->group(function () {
 
         Route::get("/", [HomeController::class, 'index']);
         Route::get("/shop", [ShopController::class, 'index']);
+        Route::get("/products/{product}",[ProductsController::class, 'permalink'])->name('products.permalink');
 
         Route::controller(ContactController::class)->prefix("/contact")->group(function () {
             Route::get("/all", "getAllContacts");

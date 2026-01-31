@@ -14,6 +14,11 @@ class ProductsController extends Controller
         return view('allProducts', compact('allProducts'));
     }
 
+    public function  permalink(ProductsModel $product)
+    {
+        return view("products.permalink",compact('product'));
+    }
+
 
     public function saveProduct(Request $request)
     {
