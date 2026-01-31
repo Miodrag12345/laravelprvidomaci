@@ -2,7 +2,8 @@
 
 @section("Sadrzaj stranice")
 
-    @foreach($cart as $product => $amount)
-          {{$product." ".$amount}}
+    @foreach($products as $product)
+        <p>{{$product->name}}</p>
+
     @endforeach
 @endsection
