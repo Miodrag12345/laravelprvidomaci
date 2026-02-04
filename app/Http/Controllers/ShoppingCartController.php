@@ -14,10 +14,9 @@ class ShoppingCartController extends Controller
     {
 
        $allProducts =[];
-       foreach (Session::get('product') as $carItem){
-           $allProducts []=$carItem['product_id'];
-       }
-
+        foreach (Session::get('product', []) as $cartItem) {
+            $allProducts[] = $cartItem['product_id'];
+        }
        $products=ProductsModel::whereIn("id",$allProducts)->get();
 
        return view("cart" , [
@@ -43,6 +42,6 @@ class ShoppingCartController extends Controller
 
 
 
-        return redirect()->route('cart');
+        return redirect()->route('cart.index');
     }
 }

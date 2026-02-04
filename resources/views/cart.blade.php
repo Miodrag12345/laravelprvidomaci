@@ -1,4 +1,4 @@
-@extends("layouts.")
+@extends("layoout")
 
 @section("Sadrzaj stranice")
 
