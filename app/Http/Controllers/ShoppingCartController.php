@@ -13,15 +13,26 @@ class ShoppingCartController extends Controller
     public function index()
     {
 
-       $allProducts =[];
-        foreach (Session::get('product', []) as $cartItem) {
-            $allProducts[] = $cartItem['product_id'];
+
+
+
+
+
+        $combined=[];
+        foreach (Session::get('product') as $item){
+            $product=ProductsModel::firstWhere(['id'=>$item['prduct_id']]);
+            if($product){
+                $combined[]=[
+                    'name'=>$product->name,
+                    'amount'=>$item->amount,
+                     'price'=>$product->price,
+                     'total'=>$item['amount']*$product->price
+                ];
+            }
         }
-       $products=ProductsModel::whereIn("id",$allProducts)->get();
 
        return view("cart" , [
-           'cart' =>Session::get('product',[]),
-           'products'=>$products
+            'combinedItems'=>$combined
 
        ]);
     }
@@ -29,7 +40,7 @@ class ShoppingCartController extends Controller
 
     public function addToCart(CartAddRequest $request)
     {
-        $product=ProductsModel::where(['id'=>$request->id])->first(); // imamo proizvod taj
+        $product=ProductsModel::find(['id'=>$request->id])->first(); // imamo proizvod taj
         if($product->amount<$request->amount){
             return redirect ()->back();
         }
