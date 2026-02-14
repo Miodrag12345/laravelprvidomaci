@@ -8,6 +8,7 @@ use App\Models\Orders;
 use App\Models\ProductsModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use App\Models\OrderItems;
 
 
 class ShoppingCartController extends Controller
